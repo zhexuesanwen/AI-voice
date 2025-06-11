@@ -1,0 +1,44 @@
+
+version: '3.8'
+
+services:
+  deepseek:
+    image: deepseek/deepseek-chat:latest
+    container_name: deepseek-chat
+    ports:
+      - "5000:5000"
+    volumes:
+      - deepseek-data:/app/data
+    environment:
+      - MODEL_SIZE=7B
+      - DEVICE=cuda  # 使用GPU加速
+      - MAX_MEMORY=16G
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  funasr:
+    image: alibaba/funasr:latest
+    container_name: funasr-server
+    ports:
+      - "8000:8000"
+    volumes:
+      - funasr-models:/workspace/models
+    environment:
+      - MODEL_NAME=paraformer-zh
+      - MODEL_SIZE=large
+      - QUANTIZE=true
+      - LANGUAGE=zh-CN
+    restart: unless-stopped
+
+volumes:
+  deepseek-data:
+    driver: local
+  funasr-models:
+    driver: local
+
