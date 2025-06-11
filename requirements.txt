@@ -1,0 +1,9 @@
+pyaudio==0.2.13
+keyboard==0.13.5
+pyttsx3==2.90
+requests==2.32.3
+numpy==1.24.4
+sounddevice==0.4.6
+pydub==0.25.1
+PyQt5==5.15.9
+python-dotenv==1.0.1
